@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seni Seviyorum</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .heart {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vmin;
+            height: 80vmin;
+            animation: pulse 2s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 52%;
+            height: 85%;
+            background: #ff0000;
+            border-radius: 50vmin 50vmin 0 0;
+            animation: colorChange 10s linear infinite;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
+        }
+
+        .heart::before {
+            left: 0;
+            transform: rotate(-45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .heart::after {
+            left: 50%;
+            transform: rotate(45deg);
+            transform-origin: 0 100%;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes colorChange {
+            0% { background: #ff0000; box-shadow: 0 0 40px rgba(255, 0, 0, 0.5); }
+            20% { background: #ff00ff; box-shadow: 0 0 40px rgba(255, 0, 255, 0.5); }
+            40% { background: #0000ff; box-shadow: 0 0 40px rgba(0, 0, 255, 0.5); }
+            60% { background: #00ffff; box-shadow: 0 0 40px rgba(0, 255, 255, 0.5); }
+            80% { background: #00ff00; box-shadow: 0 0 40px rgba(0, 255, 0, 0.5); }
+            100% { background: #ff0000; box-shadow: 0 0 40px rgba(255, 0, 0, 0.5); }
+        }
+
+        .love-messages {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .message {
+            color: white;
+            font-size: 1.4rem;
+            padding: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: transform 0.3s ease, opacity 0.5s;
+        }
+
+        .message.visible {
+            opacity: 1;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .message:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart"></div>
+    <div class="love-messages" id="loveMessages"></div>
+
+    <script>
+        const loveMessages = [
+            "Seni Seviyorum (Türkçe)",
+            "I love you (English)",
+            "Je t'aime (French)",
+            "Ich liebe dich (German)",
+            "Ti amo (Italian)",
+            "Te amo (Spanish)",
+            "愛してる (Japanese)",
+            "사랑해요 (Korean)",
+            "我爱你 (Chinese)",
+            "Я тебя люблю (Russian)",
+            "أحبك (Arabic)",
+            "Eu te amo (Portuguese)",
+            "Ik hou van je (Dutch)",
+            "Jag älskar dig (Swedish)",
+            "Jeg elsker deg (Norwegian)",
+            "Elsker dig (Danish)",
+            "Miluji tě (Czech)",
+            "Szeretlek (Hungarian)",
+            "Volim te (Croatian)",
+            "Te iubesc (Romanian)",
+            "Σ'αγαπώ (Greek)",
+            "Mahal kita (Filipino)"
+        ];
+
+        function showMessagesSequentially() {
+            const container = document.getElementById('loveMessages');
+            let i = 0;
+            function showNext() {
+                if (i < loveMessages.length) {
+                    const div = document.createElement('div');
+                    div.className = 'message';
+                    div.textContent = loveMessages[i];
+                    container.appendChild(div);
+                    setTimeout(() => {
+                        div.classList.add('visible');
+                        i++;
+                        showNext();
+                    }, 100); // Kısa bir gecikme ile animasyon başlasın
+                }
+            }
+            showNext();
+        }
+
+        window.onload = showMessagesSequentially;
+    </script>
+</body>
+</html> 
